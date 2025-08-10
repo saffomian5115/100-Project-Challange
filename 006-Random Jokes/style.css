@@ -1,0 +1,301 @@
+/*
+====================================================
+ Loader animation
+=====================================================
+*/
+.loader {
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  top: 30%;
+  left: 45%;
+}
+.loader::before , .loader::after{
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50% , -50%);
+  width: 48em;
+  height: 48em;
+  background-image:
+    radial-gradient(circle 10px, #000 100%, transparent 0),
+    radial-gradient(circle 10px, #000 100%, transparent 0),
+    radial-gradient(circle 10px, #000 100%, transparent 0),
+    radial-gradient(circle 10px, #000 100%, transparent 0),
+    radial-gradient(circle 10px, #000 100%, transparent 0),
+    radial-gradient(circle 10px, #000 100%, transparent 0),
+    radial-gradient(circle 10px, #000 100%, transparent 0),
+    radial-gradient(circle 10px, #000 100%, transparent 0);
+  background-position: 0em -18em, 0em 18em, 18em 0em, -18em 0em,
+                       13em -13em, -13em -13em, 13em 13em, -13em 13em;
+    background-repeat: no-repeat;
+  font-size: 0.5px;
+  border-radius: 50%;
+  animation: blast 2s ease-in infinite;
+}
+.loader::after {
+  font-size: 1px;
+  background: #000;
+  animation: bounce 1s ease-in infinite;
+}
+@keyframes bounce {
+  0% , 100%{ font-size: 0.75px }
+  50% { font-size: 1.5px }
+}
+@keyframes blast {
+  0% , 40% {
+    font-size: 0.5px;
+  }
+  70% {
+    opacity: 1;
+    font-size: 4px;
+  }
+   100% {
+     font-size: 6px;
+    opacity: 0;
+  }
+}
+
+/* =======================================================
+background animaiton
+======================================================= */
+@keyframes move {
+  100% {
+    transform: translate3d(0, 0, 1px) rotate(360deg);
+  }
+}
+.ball {
+  position: absolute;
+  width: 20vmin;
+  height: 20vmin;
+  border-radius: 50%;
+  backface-visibility: hidden;
+  animation: move linear infinite;
+}
+.ball:nth-child(odd) {
+    color: #006D5B;
+}
+.ball:nth-child(even) {
+    color: #FF6F61;
+}
+/* Using a custom attribute for variability */
+.ball:nth-child(1) {
+  top: 77%;
+  left: 88%;
+  animation-duration: 40s;
+  animation-delay: -3s;
+  transform-origin: 16vw -2vh;
+  box-shadow: 40vmin 0 5.703076368487546vmin currentColor;
+}
+.ball:nth-child(2) {
+  top: 42%;
+  left: 2%;
+  animation-duration: 53s;
+  animation-delay: -29s;
+  transform-origin: -19vw 21vh;
+  box-shadow: -40vmin 0 5.17594621519026vmin currentColor;
+}
+.ball:nth-child(3) {
+  top: 28%;
+  left: 18%;
+  animation-duration: 49s;
+  animation-delay: -8s;
+  transform-origin: -22vw 3vh;
+  box-shadow: 40vmin 0 5.248179047256236vmin currentColor;
+}
+.ball:nth-child(4) {
+  top: 50%;
+  left: 79%;
+  animation-duration: 26s;
+  animation-delay: -21s;
+  transform-origin: -17vw -6vh;
+  box-shadow: 40vmin 0 5.279749632220298vmin currentColor;
+}
+.ball:nth-child(5) {
+  top: 46%;
+  left: 15%;
+  animation-duration: 36s;
+  animation-delay: -40s;
+  transform-origin: 4vw 0vh;
+  box-shadow: -40vmin 0 5.964309466052033vmin currentColor;
+}
+.ball:nth-child(6) {
+  top: 77%;
+  left: 16%;
+  animation-duration: 31s;
+  animation-delay: -10s;
+  transform-origin: 18vw 4vh;
+  box-shadow: 40vmin 0 5.178483653434181vmin currentColor;
+}
+.ball:nth-child(7) {
+  top: 22%;
+  left: 17%;
+  animation-duration: 55s;
+  animation-delay: -6s;
+  transform-origin: 1vw -23vh;
+  box-shadow: -40vmin 0 5.703026794398318vmin currentColor;
+}
+.ball:nth-child(8) {
+  top: 41%;
+  left: 47%;
+  animation-duration: 43s;
+  animation-delay: -28s;
+  transform-origin: 25vw -3vh;
+  box-shadow: 40vmin 0 5.196265905749415vmin currentColor;
+}
+
+/* ==================================================================
+Button animation
+================================================================== */
+button {
+    all: unset;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    position: relative;
+    border-radius: 999vw;
+    background-color: rgba(0, 0, 0, 0.75);
+    box-shadow: -0.15em -0.15em 0.15em -0.075em rgba(5, 5, 5, 0.25),
+        0.0375em 0.0375em 0.0675em 0 rgba(5, 5, 5, 0.1);
+}
+button::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    border-radius: inherit;
+    background: linear-gradient(-135deg,
+            rgba(5, 5, 5, 0.5),
+            transparent 20%,
+            transparent 100%);
+    filter: blur(0.0125em);
+    opacity: 0.25;
+    mix-blend-mode: multiply;
+}
+button .button-outer {
+    position: relative;
+    z-index: 1;
+    border-radius: inherit;
+    transition: box-shadow 300ms ease;
+    will-change: box-shadow;
+    box-shadow: 0 0.05em 0.05em -0.01em rgba(5, 5, 5, 1),
+        0 0.01em 0.01em -0.01em rgba(5, 5, 5, 0.5),
+        0.15em 0.3em 0.1em -0.01em rgba(5, 5, 5, 0.25);
+}
+button:hover .button-outer {
+    box-shadow: 0 0 0 0 rgba(5, 5, 5, 1), 0 0 0 0 rgba(5, 5, 5, 0.5),
+        0 0 0 0 rgba(5, 5, 5, 0.25);
+}
+.button-inner {
+    --inset: 0.035em;
+    position: relative;
+    z-index: 1;
+    border-radius: inherit;
+    padding: 20px;
+    background-image: linear-gradient(135deg,
+            rgba(230, 230, 230, 1),
+            rgba(180, 180, 180, 1));
+    transition: box-shadow 300ms ease, clip-path 250ms ease,
+        background-image 250ms ease, transform 250ms ease;
+    will-change: box-shadow, clip-path, background-image, transform;
+    overflow: clip;
+    clip-path: inset(0 0 0 0 round 999vw);
+    box-shadow:
+        /* 1 */
+        0 0 0 0 inset rgba(5, 5, 5, 0.1),
+        /* 2 */
+        -0.05em -0.05em 0.05em 0 inset rgba(5, 5, 5, 0.25),
+        /* 3 */
+        0 0 0 0 inset rgba(5, 5, 5, 0.1),
+        /* 4 */
+        0 0 0.05em 0.2em inset rgba(255, 255, 255, 0.25),
+        /* 5 */
+        0.025em 0.05em 0.1em 0 inset rgba(255, 255, 255, 1),
+        /* 6 */
+        0.12em 0.12em 0.12em inset rgba(255, 255, 255, 0.25),
+        /* 7 */
+        -0.075em -0.25em 0.25em 0.1em inset rgba(5, 5, 5, 0.25);
+}
+button:hover .button-inner {
+    clip-path: inset(clamp(1px, 0.0625em, 2px) clamp(1px, 0.0625em, 2px) clamp(1px, 0.0625em, 2px) clamp(1px, 0.0625em, 2px) round 999vw);
+    box-shadow:
+        /* 1 */
+        0.1em 0.15em 0.05em 0 inset rgba(5, 5, 5, 0.75),
+        /* 2 */
+        -0.025em -0.03em 0.05em 0.025em inset rgba(5, 5, 5, 0.5),
+        /* 3 */
+        0.25em 0.25em 0.2em 0 inset rgba(5, 5, 5, 0.5),
+        /* 4 */
+        0 0 0.05em 0.5em inset rgba(255, 255, 255, 0.15),
+        /* 5 */
+        0 0 0 0 inset rgba(255, 255, 255, 1),
+        /* 6 */
+        0.12em 0.12em 0.12em inset rgba(255, 255, 255, 0.25),
+        /* 7 */
+        -0.075em -0.12em 0.2em 0.1em inset rgba(5, 5, 5, 0.25);
+}
+button .button-inner span {
+    position: relative;
+    z-index: 4;
+    font-family: "Inter", sans-serif;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    color: rgb(0, 0, 0);
+    background-image: linear-gradient(135deg,
+            rgba(25, 25, 25, 1),
+            rgba(75, 75, 75, 1));
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: transform 250ms ease;
+    display: block;
+    will-change: transform;
+    text-shadow: rgba(0, 0, 0, 0.1) 0 0 0.1em;
+    -webkit-user-select: none; 
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+button:hover .button-inner span {
+    transform: scale(0.975);
+}
+button:active .button-inner {
+    transform: scale(0.975);
+}
+
+/* ===================================================
+body code
+================================================== */
+body {
+    background: #833AB4;
+background: linear-gradient(90deg, rgba(131, 58, 180, 1) 0%, rgba(29, 253, 59, 0.84) 50%, rgba(131, 58, 180, 1) 100%);
+display: flex;
+justify-content: center;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 0.05em 0.05em -0.01em rgba(5, 5, 5, 1),
+        0 0.01em 0.01em -0.01em rgba(5, 5, 5, 0.5),
+        0.15em 0.3em 0.1em -0.01em rgba(5, 5, 5, 0.25);
+    margin-top: 20px;
+    /* padding: 5%; */
+    padding: 0px 3% 8% 3%;
+    background-color: rgba(255, 255, 255, 0.425);
+    text-align: center;
+}
+
+
+.joke {
+    font-size: 2rem;
+    font-weight: 500;
+    height: auto;
+    padding: 5%;
+    text-shadow:  5px 5px 5px rgba(0, 0, 0, 0.308);
+}
+
+
+

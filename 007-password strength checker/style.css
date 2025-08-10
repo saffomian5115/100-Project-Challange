@@ -1,0 +1,69 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+background: #3F5EFB;
+background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%);
+display: flex;
+justify-content: center;
+align-items: center;
+height: 80vh;
+}
+
+.container {
+    max-width: 500px;
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.271);
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.151);
+
+}
+
+input {
+    width: 88%;
+    padding: 8px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+}
+
+.password-container {
+    width: 100%;
+}
+
+#togglePassword {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+}
+
+#togglePassword:hover {
+    background-color: #ccc;
+}
+
+#togglePassword:active {
+    transform: scale(0.5);
+}
+
+.strength-container {
+    width: 100%;
+    height: 10px;
+    margin-top: 20px;
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+.strength {
+    width: 0%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #ddd;
+    transition: all 0.5s ease;
+}
+

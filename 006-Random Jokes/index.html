@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Jokes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <span class="ball"></span>
+    <span class="ball"></span>
+    <span class="ball"></span>
+    <span class="ball"></span>
+    <span class="ball"></span>
+    <span class="ball"></span>
+    <div class="container">
+        <span class="loader"></span>
+        <div class="joke"></div>
+        <button class="bad" onclick="soundPLay('bad')">
+            <div class="button-outer">
+                <div class="button-inner">
+                <span> 😕</span>
+                </div>
+            </div>
+        </button>
+        <button class="new" onclick="newjoke()">
+            <div class="button-outer">
+                <div class="button-inner">
+                <span>New Joke</span>
+                </div>
+            </div>
+        </button>
+        <button class="good" onclick="soundPLay('good')">
+            <div class="button-outer">
+                <div class="button-inner">
+                <span> 😂 </span>
+                </div>
+            </div>
+        </button>
+    </div>
+
+
+<script src="script.js"></script>
+</body>
+</html>

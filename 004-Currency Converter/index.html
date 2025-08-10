@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <form>
+            <label for="amountFrom">From</label>
+            <input type="number" required id="inputFrom">
+           <select id="from">
+                <option value="PKR">Pakistani (PKR)</option>
+                <option value="USD">US Dollar (USD)</option>
+                <option value="EUR">Euro (EUR)</option>
+                <option value="GBP">British Pound Sterling (GBP)</option>
+                <option value="JPY">Japanese Yen (JPY)</option>
+                <option value="CNY">Chinese Yuan Renminbi (CNY)</option>
+                <option value="CAD">Canadian Dollar (CAD)</option>
+                <option value="AUD">Australian Dollar (AUD)</option>
+                <option value="CHF">Swiss Franc (CHF)</option>
+                <option value="INR">Indian Rupee (INR)</option>
+                <option value="SAR">Saudi Riyal (SAR)</option>
+                <option value="AED">UAE Dirham (AED)</option>
+                <option value="TRY">Turkish Lira (TRY)</option>
+                <option value="BDT">Bangladeshi Taka (BDT)</option>
+                <option value="IDR">Indonesian Rupiah (IDR)</option>
+                <option value="MYR">Malaysian Ringgit (MYR)</option>
+                <option value="ZAR">South African Rand (ZAR)</option>
+                <option value="RUB">Russian Ruble (RUB)</option>
+                <option value="THB">Thai Baht (THB)</option>
+                <option value="PHP">Philippine Peso (PHP)</option>
+            </select>
+            <label for="to">To</label>
+            <select id="to">
+                <option value="PKR">Pakistani (PKR)</option>
+                <option value="USD">US Dollar (USD)</option>
+                <option value="EUR">Euro (EUR)</option>
+                <option value="GBP">British Pound Sterling (GBP)</option>
+                <option value="JPY">Japanese Yen (JPY)</option>
+                <option value="CNY">Chinese Yuan Renminbi (CNY)</option>
+                <option value="CAD">Canadian Dollar (CAD)</option>
+                <option value="AUD">Australian Dollar (AUD)</option>
+                <option value="CHF">Swiss Franc (CHF)</option>
+                <option value="INR">Indian Rupee (INR)</option>
+                <option value="SAR">Saudi Riyal (SAR)</option>
+                <option value="AED">UAE Dirham (AED)</option>
+                <option value="TRY">Turkish Lira (TRY)</option>
+                <option value="BDT">Bangladeshi Taka (BDT)</option>
+                <option value="IDR">Indonesian Rupiah (IDR)</option>
+                <option value="MYR">Malaysian Ringgit (MYR)</option>
+                <option value="ZAR">South African Rand (ZAR)</option>
+                <option value="RUB">Russian Ruble (RUB)</option>
+                <option value="THB">Thai Baht (THB)</option>
+                <option value="PHP">Philippine Peso (PHP)</option>
+            </select>
+            <button type="submit" id="btnConvert" class="button-19">Convert</button>
+        </form> 
+        <label for="output">Output</label>
+        <h3 id="output1">Rate: 0.0</h3>
+        <h3 id="output2">Total: 0.0</h3>
+        
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
