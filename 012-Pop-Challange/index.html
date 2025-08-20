@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>🎈 Pop Baloons</title>
+</head>
+<body>
+
+    <div class="game">
+        <div class="topbar">
+            <div>
+                <h1>Baloons Pop Challange</h1>
+            </div>
+            <div id="scoreboard">
+                <h2 id="count">Score: 0</h2>
+                <h2 id="timer">60s</h2>
+                <div id="time-select">
+                    <select id="time-dropdown" onchange="setTime(this.value)">
+                        <option value="15">15  seconds</option>
+                        <option value="30">30 seconds</option>
+                        <option value="60" selected>1 minute</option>
+                        <option value="120">2 minutes</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="gamearea">
+            <!-- ✅ Changed from <button> to <span> for lightweight balloon -->
+            <span class="baloons" onclick="distroy(this)" title="Click to Pop Me...!">🎈</span>
+        </div>
+    </div>
+
+    <div id="over">
+        <h4>Game is Over</h4>
+        <h4>Your Score</h4>
+        <h1 id="score"></h1>
+
+        <!-- ✅ Changed from <a> to <button> for restart -->
+        <button id="again" class="button-64" onclick="location.reload()">Again</button>
+    </div>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>
