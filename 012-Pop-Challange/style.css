@@ -65,7 +65,7 @@ body {
     padding: 3px;
     border: none;
     text-shadow: 6px 5px 5px rgb(41, 41, 41);
-    font-size: 2vw;
+    font-size: 30px;
     cursor: pointer;
     position: absolute;
     animation: floatIn 0.5s ease-out;
@@ -76,11 +76,19 @@ body {
     margin-top: 50px;
     height: 70vh;
   }
-  .baloons {
-    font-size: 4vw;
-  }
+  
   #over {
     font-size: 16vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .gamearea {
+    margin-top: 80px;
+  }
+  
+  #over {
+    font-size: 20vw;
   }
 }
 

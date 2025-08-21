@@ -29,6 +29,8 @@ function saveScore() {
   showHighScore(key);
 }
 
+
+
 function showHighScore(key) {
   let highScores = JSON.parse(localStorage.getItem("highScores")) || {};
   let data = highScores[key];
