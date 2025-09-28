@@ -21,6 +21,7 @@ export default function Navbar(){
                 <CustomLink to='/'>Dashboard</CustomLink>
                 <CustomLink to='/students'>Student</CustomLink>
                 <CustomLink to='/announcements'>Announcements</CustomLink>
+                <CustomLink to='/photos'>Photes</CustomLink>
                 <CustomLink to='/auth/Login'>Login</CustomLink>
 
             </div>

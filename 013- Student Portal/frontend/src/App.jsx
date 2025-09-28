@@ -5,6 +5,8 @@ import { useAuth } from './contexts/authContext';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import Announcements from './pages/announcements';
+import Students from './pages/students';
+import Photos from './pages/photos';
 
 
 
@@ -25,8 +27,9 @@ function App() {
       <div className='pt-10 bg-transparent'>
         <Routes>
         <Route path='/' element={<h1>dashboard</h1>} />
-        <Route path='/students' element={<ProtectedRoute><h1>student</h1></ProtectedRoute>} />
+        <Route path='/students' element={<ProtectedRoute><Students/></ProtectedRoute>} />
         <Route path='/announcements' element={<ProtectedRoute><Announcements/></ProtectedRoute>} />
+        <Route path='/photos' element={<ProtectedRoute><Photos/></ProtectedRoute>} />
         <Route path='/auth/login' element={<Login/>} />
         <Route path='/auth/signup' element={<Signup/>} />
       </Routes>

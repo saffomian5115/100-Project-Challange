@@ -9,9 +9,9 @@ export default function Signup(){
 
     const {user, login} = useAuth();
     const navigate = useNavigate();
-    const [name, setName] = useState();
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [role, setRole] = useState('student');
 
     function handleSignup(e){

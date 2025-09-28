@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import api from '../api'
-import { Plus, PenIcon } from "lucide-react"
+import { Plus, PenIcon, Pen, Trash } from "lucide-react"
 import { useAuth } from "../contexts/authContext";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -57,10 +57,7 @@ export default function Announcements(){
         api.put(`/announcements/${announcementId}`, {title, message})
         .then((res)=> toast.success(res.data.message))
         .catch((err)=> toast.error(err.response?.data?.error))
-        setTitle('')
-        setMessage('')
-        setAnnouncementId('')
-        setEditHidden('hidden')
+        hideEdit();
     }
 
     function handleDelete(id){
@@ -87,11 +84,17 @@ export default function Announcements(){
                     <div key={i} className={` relative ${i%2 === 0? "bg-gray-900":"bg-gray-950"}   backdrop-blur-sm p-3 m-2 rounded-xl border-2 border-gray-500/50 hover:border-gray-500`}>
                         <h1 className="text-xl font-semibold">{d.title}</h1>
                         <p className="font-medium text-gray-200">{d.message}</p>
-                        <div className={`relative w-fit bottom-0 left-0  mx-3 text-sm font-semibold ${user.role==='admin'? "block":"hidden"}`}>
-                            <button onClick={() => showEdit(d.id, d.title, d.message)}  className="m-2 px-4 py-2 rounded-xl bg-yellow-400 text-black">Edit</button>
-                            <button onClick={()=>handleDelete(d.id)}  className="m-2 px-4 py-2 rounded-xl bg-red-600 text-black">Delete</button>
+                        <div className={` border-2 rounded-xl px-2 m-1 w-fit bottom-0 left-0 ${user.role==='admin'? "block":"hidden"}`}>
+                            <button onClick={() => showEdit(d.id, d.title, d.message)}
+                                className=" p-2 rounded-xl hover:bg-gray-500">
+                                    <Pen className="w-5 h-5"/>
+                            </button>
+                            <button onClick={()=>handleDelete(d.id)}  
+                                className=" p-2 rounded-xl hover:bg-gray-500">
+                                    <Trash className="w-5 h-5"/>
+                            </button>
                         </div>
-                        <label className="absolute right-1 bottom-2 text-sm font-light text-gray-300">{d.date}</label>
+                        <label className="absolute right-1 bottom-2 text-sm font-light text-gray-300">{(d.date)}</label>
                     </div>
                 ))}   
             </div>
@@ -119,7 +122,7 @@ export default function Announcements(){
                         </div>
                         <div className="flex w-full gap-4 p-4 text-black">
                             <button type="button" onClick={()=>setHidden(!hidden)} className="w-1/2 p-2 font-bold rounded-full bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600">Cancel</button>
-                            <button type="submit" onClick={hideEdit} className="w-1/2 p-2 font-bold rounded-full bg-blue-700 hover:bg-blue-600 active:bg-blue-500">Add</button>
+                            <button type="submit" className="w-1/2 p-2 font-bold rounded-full bg-blue-700 hover:bg-blue-600 active:bg-blue-500">Add</button>
                         </div>         
                     </form>
 
