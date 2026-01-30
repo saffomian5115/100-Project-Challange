@@ -1,0 +1,60 @@
+/* Custom styles for car dealership */
+.car-card {
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.car-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.car-image {
+  transition: transform 0.5s ease;
+}
+
+.car-card:hover .car-image {
+  transform: scale(1.05);
+}
+
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+/* Custom badge styles */
+.badge {
+  font-weight: 500;
+  padding: 5px 10px;
+}
+
+/* Button hover effects */
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+/* Header styles */
+header {
+  border-bottom: 3px solid #ffc107;
+}
+
+/* Footer styles */
+footer {
+  border-top: 3px solid #ffc107;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .car-card {
+    margin-bottom: 20px;
+  }
+  
+  .display-1 {
+    font-size: 3rem;
+  }
+}
