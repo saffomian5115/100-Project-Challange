@@ -1,0 +1,180 @@
+@font-face {
+    font-family: hand1;
+    src: url(fonts/handwriting-1.ttf);
+}
+
+:root {
+    --neon: #0ff;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: hand1;
+    background-color: #262626;
+}
+
+   /* Effects and transitions */
+
+   .a:hover {
+    border: 2px solid var(--neon);
+    box-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon), 0 0 40px var(--neon), 0 0 80px var(--neon); 
+ }
+
+
+     /* colors theme */
+
+.colors {
+    display: inline-block;
+   
+}
+
+.colors button {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    border: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+#changeColor {
+    background-color: var(--neon);
+
+    transition: 0.3s;
+}
+
+
+h1 {
+    color: var(--neon);
+    display: inline-block;
+    font-weight: bold;
+    margin: 10px;
+    position: absolute;
+    top: 10px;
+    left: 30px;
+}
+
+  /* grid part  */
+
+.grid {
+    z-index: -1;
+    height: 400px;
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 200px;
+    left: 500px;
+    }
+
+.l {
+    position: absolute;
+    border: 2px solid var(--neon);
+}
+
+.h1 {
+    top: 33%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+}
+
+.h2 {
+    top: 66%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+}
+
+.v1 {
+    top: 0;
+    left: 33%;
+    height: 100%;
+    width: 4px;
+}
+.v2 {
+    top: 0;
+    left: 66%;
+    height: 100%;
+    width: 2px;
+}
+
+    /* box and buttons */
+
+.boxes {
+    height: 400px;
+    width: 400px;
+    display: flex;
+    border-radius: 50%;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 200px;
+    left: 500px;
+}
+
+.boxes button{
+    font-family: hand1;
+    color: var(--neon);
+    text-shadow: 0 0 5px var(--neon);
+    width: 25%;
+    height: 25%;
+    margin: 4%;
+    font-size: 75px;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    background-color: #262626;
+    transition: 0.3s ease-out;
+}
+
+#btnReset {
+    font-size: 30px;
+    position: absolute;
+    top: 400px;
+    left: 100px;
+    border: 2px solid var(--neon);
+    background: transparent;
+    color: var(--neon);
+    padding: 20px 40px;
+    border-radius: 50px;
+    transition: 0.3s ease-out;
+   
+}
+
+#btnNew {
+    font-size: 30px;
+    border: 2px solid var(--neon);
+    background: transparent;
+    color: var(--neon);
+    padding: 20px 40px;
+    border-radius: 50px;
+    transition: 0.3s ease-out;
+   }
+
+
+.msgContainer {
+    color: var(--neon);
+    font-size: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    height: 500px;
+    width: 500px;
+    background-color: #333;
+    border-radius: 20px;
+    position: absolute;
+    top: 130px;
+    left: 450px;
+    z-index: 10;
+}
+
+.hide {
+    display: none;
+}
