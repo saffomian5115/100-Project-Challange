@@ -1,0 +1,488 @@
+/* Navbar.css - Futuristic Cyberpunk Style */
+
+.cyber-navbar {
+  background: rgba(10, 10, 20, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+  padding: 12px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated Scanner Effect */
+.navbar-scanner {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 243, 255, 0.8),
+    rgba(157, 0, 255, 0.8),
+    transparent
+  );
+  animation: scanner 4s infinite;
+}
+
+@keyframes scanner {
+  0% { left: -100%; }
+  20% { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* Cyber Brand */
+.cyber-brand {
+  padding: 0 !important;
+  margin-right: 30px !important;
+  position: relative;
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  padding: 5px 10px;
+}
+
+.brand-icon {
+  font-size: 28px;
+  color: #00f3ff;
+  filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.5));
+  animation: pulse-icon 2s infinite;
+}
+
+@keyframes pulse-icon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.brand-text {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #ffffff, #e0e0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.neon-text {
+  background: linear-gradient(90deg, #00f3ff, #9d00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-left: 4px;
+}
+
+.brand-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    rgba(0, 243, 255, 0.1), 
+    rgba(157, 0, 255, 0.1)
+  );
+  filter: blur(10px);
+  border-radius: 8px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cyber-brand:hover .brand-glow {
+  opacity: 1;
+}
+
+/* Cyber Navigation Links */
+.cyber-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px !important;
+  margin: 0 4px;
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 14px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-icon {
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.nav-text {
+  position: relative;
+  z-index: 1;
+}
+
+.link-glow {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 243, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.cyber-nav-link:hover {
+  color: #00f3ff !important;
+  transform: translateY(-2px);
+}
+
+.cyber-nav-link:hover .nav-icon {
+  transform: scale(1.2);
+  color: #00f3ff;
+  filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.5));
+}
+
+.cyber-nav-link:hover .link-glow {
+  left: 100%;
+}
+
+/* Active Link */
+.cyber-nav-link.active {
+  color: #00f3ff !important;
+  background: rgba(0, 243, 255, 0.1);
+  border-bottom: 2px solid #00f3ff;
+  box-shadow: 0 4px 12px rgba(0, 243, 255, 0.2);
+}
+
+.cyber-nav-link.active .nav-icon {
+  color: #00f3ff;
+  filter: drop-shadow(0 0 8px rgba(0, 243, 255, 0.8));
+}
+
+/* Sell Link Special Style */
+.cyber-nav-link.sell-link {
+  background: linear-gradient(45deg, #00f3ff20, #9d00ff20);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+}
+
+.cyber-nav-link.sell-link:hover {
+  background: linear-gradient(45deg, #00f3ff30, #9d00ff30);
+  border-color: #00f3ff;
+}
+
+/* Admin Link */
+.cyber-nav-link.admin-link {
+  background: rgba(255, 51, 102, 0.1);
+  border: 1px solid rgba(255, 51, 102, 0.3);
+}
+
+.cyber-nav-link.admin-link:hover {
+  background: rgba(255, 51, 102, 0.2);
+  border-color: #ff3366;
+}
+
+.cyber-nav-link.admin-link.active {
+  background: rgba(255, 51, 102, 0.3);
+  border-color: #ff3366;
+  color: #ff3366 !important;
+}
+
+/* Auth Links */
+.cyber-nav-link.auth-link {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cyber-nav-link.register-link {
+  background: linear-gradient(45deg, #00ff88, #00ffcc20);
+}
+
+.cyber-nav-link.register-link:hover {
+  background: linear-gradient(45deg, #00ff8840, #00ffcc40);
+  border-color: #00ff88;
+}
+
+/* Cyber Dropdown */
+.cyber-dropdown-wrapper {
+  position: relative;
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 243, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.user-badge:hover {
+  background: rgba(0, 243, 255, 0.1);
+  border-color: #00f3ff;
+}
+
+.user-avatar-mini {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(45deg, #00f3ff, #9d00ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #000;
+  font-size: 14px;
+}
+
+.user-name {
+  color: #fff;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+/* Dropdown Menu */
+.cyber-dropdown .dropdown-menu {
+  background: rgba(16, 18, 27, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.cyber-dropdown .dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 20px;
+  width: 10px;
+  height: 10px;
+  background: rgba(16, 18, 27, 0.95);
+  border-left: 1px solid rgba(0, 243, 255, 0.3);
+  border-top: 1px solid rgba(0, 243, 255, 0.3);
+  transform: rotate(45deg);
+}
+
+.dropdown-header-glow {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.user-info-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.user-avatar-large {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(45deg, #00f3ff, #9d00ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #000;
+  font-size: 20px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-fullname {
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.user-email {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+}
+
+.user-role-badge {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 8px;
+  background: linear-gradient(45deg, #ff3366, #ff00ff);
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.dropdown-divider-cyber {
+  border-top: 1px solid rgba(0, 243, 255, 0.2);
+  margin: 12px 0;
+}
+
+.dropdown-cyber-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 13px;
+  border-radius: 8px !important;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dropdown-cyber-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 243, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.dropdown-cyber-item:hover {
+  background: rgba(0, 243, 255, 0.1) !important;
+  color: #00f3ff !important;
+  transform: translateX(5px);
+}
+
+.dropdown-cyber-item:hover::before {
+  left: 100%;
+}
+
+.dropdown-icon {
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.dropdown-cyber-item:hover .dropdown-icon {
+  transform: scale(1.2);
+  color: #00f3ff;
+}
+
+.logout-item:hover {
+  background: rgba(255, 51, 102, 0.1) !important;
+  color: #ff3366 !important;
+}
+
+.logout-item:hover .dropdown-icon {
+  color: #ff3366 !important;
+}
+
+/* Toggle Button */
+.cyber-toggle {
+  border: 1px solid rgba(0, 243, 255, 0.3) !important;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+  background: rgba(0, 243, 255, 0.1) !important;
+}
+
+.cyber-toggle:hover {
+  background: rgba(0, 243, 255, 0.2) !important;
+  border-color: #00f3ff !important;
+}
+
+.toggle-icon {
+  font-size: 20px;
+  color: #00f3ff;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .cyber-nav-link {
+    padding: 12px 20px !important;
+    margin: 4px 0;
+  }
+  
+  .cyber-user-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 243, 255, 0.2);
+  }
+  
+  .user-badge {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .cyber-dropdown .dropdown-menu {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 !important;
+  }
+  
+  .cyber-dropdown .dropdown-menu::before {
+    display: none;
+  }
+  
+  .dropdown-header-glow {
+    display: none;
+  }
+  
+  .dropdown-cyber-item {
+    padding: 12px 24px !important;
+  }
+}
+
+/* Glitch Effect on Hover */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.cyber-brand:hover .brand-text {
+  animation: glitch 0.3s ease;
+}
+
+/* Scroll Effect */
+.cyber-navbar.scrolled {
+  background: rgba(10, 10, 20, 0.98);
+  box-shadow: 0 4px 20px rgba(0, 243, 255, 0.1);
+}
+
+/* Custom Scrollbar */
+.dropdown-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #00f3ff, #9d00ff);
+  border-radius: 10px;
+}

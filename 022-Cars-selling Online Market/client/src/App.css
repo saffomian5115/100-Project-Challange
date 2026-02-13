@@ -1,0 +1,13 @@
+/* Page transition wrapper */
+main {
+  animation: fadeIn 0.4s ease;
+}
+
+/* Ensure full width layout */
+.d-flex.flex-column.min-vh-100 {
+  min-height: 100vh;
+}
+
+main.flex-grow-1 {
+  flex: 1;
+}
