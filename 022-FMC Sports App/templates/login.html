@@ -1,0 +1,41 @@
+<audio id="clickSound" src="{{ url_for('static', filename='sounds/click.mp3') }}" preload="auto"></audio>
+ 
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Sports Shop</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+<body class="bg-dark text-white">
+  <div class="container py-5">
+    <div class="d-flex justify-content-center">
+      <img src="{{ url_for('static', filename='images/dp/dp.png') }}" alt="FMC Sports" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; display: block; margin: 0 auto 16px auto;">
+    </div>
+    <h2 class="text-center mb-4">FMC Sports</h2>
+
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <form method="post" action="{{ url_for('login') }}">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required>
+          </div>
+
+          <button type="submit" class="btn btn-danger w-100">Login</button>
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% endwith %}
+        <!-- Flash Messages removed -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

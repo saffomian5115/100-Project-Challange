@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Sales Billing</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <style>
+    .cart-box { background: #f8f9fa; padding: 20px; border-radius: 10px; }
+    .btn-red { background-color: #d90429; color: white; }
+  </style>
+</head>
+<body class="bg-light">
+<audio id="beepSound" src="{{ url_for('static', filename='sounds/beep.mp3') }}" preload="auto"></audio>
+<audio id="clickSound" src="{{ url_for('static', filename='sounds/click.mp3') }}" preload="auto"></audio>
+<div class="container py-4">
+  
+  <h2 class="text-center mb-4">🧾 Sales Billing</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% if not buyer %}
+  <!-- Buyer Info Form -->
+  <form method="post" id="barcodeInput" class="row g-3 mb-4">
+    <div class="mt-4">
+    <a href="/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+  </div>
+    <div class="col-md-6">
+      <input type="text" name="buyer_name" class="form-control" placeholder="Buyer Name *" required autofocus>
+    </div>
+    <div class="col-md-6">
+      <input type="text" name="buyer_phone" class="form-control" placeholder="Phone (optional)">
+    </div>
+    <div class="col-12 text-end">
+      <button class="btn btn-danger">✅ Save & Continue</button>
+    </div>
+  </form>
+  {% else %}
+  <!-- Search Bar -->
+
+   <div class="mt-4">
+    <a href="/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+  </div><br>
+
+  <!-- Unified search bar for barcode or product name/category/brand -->
+  <form action="{{ url_for('sales') }}" method="post" class="mb-4">
+    <div class="mb-2">
+      <input type="text" id="barcodeInput" name="search_input" class="form-control" placeholder="Search by barcode, name, category, or brand" value="{{ search_query }}" autofocus>
+    </div>
+    <div class="col-12 text-end">
+      <button type="submit" class="btn btn-primary">Search / Add</button>
+      {% if search_query %}
+        <a href="{{ url_for('sales') }}" class="btn btn-secondary">Clear</a>
+      {% endif %}
+    </div>
+  </form>
+ 
+  <div class="row">
+    <div class="col-md-6">
+      {% for p in products %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5>{{ p['name'] }} ({{ p['brand'] }})</h5>
+      <p>
+        Category: {{ p['category'] }}<br>
+        Price: Rs. {{ p['price'] }}<br>
+        Stock: {{ p['quantity'] }}<br>
+      </p>
+      <form method="post">
+        <input type="hidden" name="product_id" value="{{ p['id'] }}">
+        <div class="row g-2 align-items-center">
+          <div class="col-4">
+            <input type="number" name="quantity" value="1" min="1" max="{{ p['quantity'] }}" class="form-control form-control-sm" placeholder="Qty">
+          </div>
+          <div class="col-8">
+            <button class="btn btn-danger w-100">Add to Cart</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endfor %}
+
+      <div class="mt-4">
+      <a href="/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+    </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="cart-box shadow">
+        <h4>🛒 Cart</h4>
+
+  <div class="mb-3 alert alert-info">
+    <strong>{{ buyer.name }}</strong>
+    {% if buyer.phone %} | Phone: {{ buyer.phone }} {% endif %}
+  </div>
+        {% if cart %}
+          <table class="table table-bordered">
+            <thead>
+               <tr>
+    <th>Product</th><th>Qty</th><th>Price</th><th>Total</th><th>Action</th>
+  </tr>
+            </thead>
+            <tbody>
+
+{% for item in cart %}
+<tr>
+  <td>{{ item.name }}</td>
+  <td>
+    <form method="post" action="/sales/update_quantity/{{ loop.index0 }}">
+      <input type="number" name="quantity" step="1" min="1" class="form-control form-control-sm" value="{{ item.quantity }}">
+      <button class="btn btn-sm btn-outline-primary mt-1">✓</button>
+    </form>
+  </td>
+  <td>Rs. {{ item.price }}</td>
+  <td>Rs. {{ item.total }}</td>
+  <td>
+    <a href="/sales/remove/{{ loop.index0 }}" class="btn btn-sm btn-outline-danger">🗑</a>
+  </td>
+</tr>
+{% endfor %}
+
+<tr>
+  <td colspan="3" class="text-end"><strong>Subtotal</strong></td>
+  <td><strong>Rs. {{ subtotal }}</strong></td>
+  <td></td>
+</tr>
+</tbody>
+
+          </table>
+          <form id="finalizeForm" method="post" action="{{ url_for('finalize_sale') }}">
+            <div class="mb-2">
+              <label for="overall_discount"><strong>Overall Discount (Rs)</strong></label>
+              <div class="input-group">
+                <input type="number" name="overall_discount" id="overall_discount" class="form-control" step="0.01" min="0" max="{{ subtotal }}" value="0" autocomplete="off">
+                <button type="button" class="btn btn-danger" id="applyDiscountBtn">+</button>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label for="payment_type"><strong>Payment Type</strong></label>
+              <select name="payment_type" id="payment_type" class="form-select" required onchange="toggleAmountField()">
+                <option value="full">Full Payment</option>
+                <option value="partial">Partial Payment</option>
+                <option value="credit">Credit (Pay Later)</option>
+              </select>
+            </div>
+
+            <div class="mb-2" id="amountPaidDiv" style="display:none;">
+              <label for="amount_paid"><strong>Amount Paid (Rs)</strong></label>
+              <input type="number" name="amount_paid" id="amount_paid" class="form-control" step="0.01" min="1" value="" required>
+            </div>
+
+            <button class="btn btn-success w-100 mt-2" id="finalizeBtn">Finalize Sale</button>
+          </form>
+
+          {% endif %}
+
+<script>
+  // Play click sound on every button or link click
+  document.addEventListener('DOMContentLoaded', function() {
+    function playClick() {
+      document.getElementById('clickSound').play();
+    }
+    document.querySelectorAll('button, a, input[type="button"], input[type="submit"]').forEach(function(el) {
+      el.addEventListener('click', playClick);
+    });
+  });
+// Prevent Enter in discount field from submitting the form
+document.getElementById('overall_discount').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.getElementById('applyDiscountBtn').click();
+  }
+});
+
+// Apply discount and update table
+document.getElementById('applyDiscountBtn').addEventListener('click', function() {
+  updateFinalTotal();
+});
+
+// Finalize sale button AJAX
+document.getElementById('finalizeBtn').onclick = function(e) {
+  e.preventDefault();
+  const form = document.getElementById('finalizeForm');
+  const formData = new FormData(form);
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.invoice_url) {
+      window.open(data.invoice_url, '_blank');
+      window.location.href = '/sales';
+    } else {
+      window.location.reload();
+    }
+  })
+  .catch(() => window.location.reload());
+};
+</script>
+</div>
+
+<!-- Flash Messages removed -->
+
+
+
+
+
+<script>
+  // Focus barcode input on page load
+  window.onload = function() {
+    document.getElementById("barcodeInput").focus();
+  };
+
+  // Play beep sound after barcode add using sessionStorage
+  document.querySelector('form[action="{{ url_for('sales') }}"]')?.addEventListener('submit', function(e) {
+    const input = document.getElementById('barcodeInput');
+    if (input && input.value.trim().length > 0) {
+      sessionStorage.setItem('playBeep', '1');
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', function() {
+    if (sessionStorage.getItem('playBeep') === '1') {
+      document.getElementById('beepSound').play();
+      sessionStorage.removeItem('playBeep');
+    }
+  });
+
+  function toggleAmountField() {
+    const type = document.getElementById("payment_type").value;
+    const amountDiv = document.getElementById("amountPaidDiv");
+    const amountInput = document.getElementById("amount_paid");
+    if (type === "partial") {
+      amountDiv.style.display = "block";
+      amountInput.required = true;
+      amountInput.value = "";
+    } else {
+      amountDiv.style.display = "none";
+      amountInput.required = false;
+      amountInput.value = "0";
+    }
+  }
+
+  // Calculate and show discount/final total rows
+  function updateFinalTotal() {
+    const subtotal = parseFloat("{{ subtotal }}");
+    const discount = parseFloat(document.getElementById("overall_discount").value) || 0;
+    const finalTotal = Math.max(0, subtotal - discount);
+    document.getElementById("overall_discount").max = subtotal;
+    const discountRow = document.getElementById("discount-row");
+    const finalTotalRow = document.getElementById("final-total-row");
+    if (discount > 0) {
+      if (!discountRow) {
+        const tbody = document.querySelector("tbody");
+        const discountTr = document.createElement("tr");
+        discountTr.id = "discount-row";
+        discountTr.innerHTML = `
+          <td colspan="3" class="text-end text-danger"><strong>Discount</strong></td>
+          <td class="text-danger"><strong>-Rs. ${discount.toFixed(2)}</strong></td>
+          <td></td>
+        `;
+        tbody.appendChild(discountTr);
+      } else {
+        discountRow.innerHTML = `
+          <td colspan="3" class="text-end text-danger"><strong>Discount</strong></td>
+          <td class="text-danger"><strong>-Rs. ${discount.toFixed(2)}</strong></td>
+          <td></td>
+        `;
+      }
+      if (!finalTotalRow) {
+        const tbody = document.querySelector("tbody");
+        const finalTotalTr = document.createElement("tr");
+        finalTotalTr.id = "final-total-row";
+        finalTotalTr.innerHTML = `
+          <td colspan="3" class="text-end"><strong>Total</strong></td>
+          <td><strong>Rs. ${finalTotal.toFixed(2)}</strong></td>
+          <td></td>
+        `;
+        tbody.appendChild(finalTotalTr);
+      } else {
+        finalTotalRow.innerHTML = `
+          <td colspan="3" class="text-end"><strong>Total</strong></td>
+          <td><strong>Rs. ${finalTotal.toFixed(2)}</strong></td>
+          <td></td>
+        `;
+      }
+    } else {
+      if (discountRow) discountRow.remove();
+      if (finalTotalRow) finalTotalRow.remove();
+    }
+  }
+
+  // Only update discount when + button is pressed
+  document.addEventListener('DOMContentLoaded', function() {
+    updateFinalTotal();
+  });
+
+
+
+</script>
+
+
+
+</body>
+</html>
+{% endif %}

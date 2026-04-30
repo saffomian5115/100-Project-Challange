@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - FMC Sports</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff;
+    }
+    .side-panel {
+      width: 320px;
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #d90429, #660708);
+      color: white;
+      padding: 20px;
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
+    .side-panel .logo-box {
+      width: 100%;
+      height: 300px;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+    .side-panel img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .side-panel .btn {
+      width: 90%;
+      margin: 10px auto;
+      display: block;
+      text-align: left;
+    }
+    .main-panel {
+      margin-left: 320px;
+      padding: 20px;
+    }
+    .search-bar {
+      background: #d90429;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .search-bar input {
+      max-width: 300px;
+    }
+    .keywords span {
+      background: white;
+      color: #d90429;
+      padding: 5px 10px;
+      border-radius: 20px;
+      margin: 5px;
+      font-size: 0.9rem;
+      display: inline-block;
+    }
+    .tile {
+      border-radius: 20px;
+      padding: 20px;
+      color: white;
+      text-align: center;
+      min-height: 140px;
+    }
+    .tile-time { background-color: #ef233c; }
+    .tile-calendar { background-color: #e5383b; }
+    .tile-graph { background-color: #d90429; }
+    .tile-threshold { background-color: #9d0208; }
+    .tile-empty {
+      background-color: #f5f3f4;
+      color: #6c757d;
+      border: 2px dashed #dee2e6;
+    }
+    #fmcSports {
+        font-family: 'Times New Roman', Times, serif;
+        text-align: left;
+        font-weight: 900;
+        font-size: 40px;
+    }
+    #tagline {
+        font-family: 'Times New Roman', Times, serif;
+        text-align: center;
+        font-weight: 500;
+        font-size: 28px;
+
+    }
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      height: 250px;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .slide-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .prev, .next {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      padding: 10px;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      border: none;
+      background: rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 1;
+      transition: background 0.3s;
+      opacity: 0;
+    }
+
+    .prev:hover, .next:hover {
+      background: rgba(0,0,0,0.4);
+    }
+
+    .slideshow-container:hover .prev,
+    .slideshow-container:hover .next {
+      opacity: 1;
+    }
+
+    .prev {
+      left: 0;
+    }
+
+    .next {
+      right: 0;
+    }
+</style>
+</head>
+<body>
+<audio id="clickSound" src="{{ url_for('static', filename='sounds/click.mp3') }}" preload="auto"></audio>
+initialize_database()
+<!-- Side Panel -->
+<div class="side-panel">
+  <div class="logo-box mb-3">
+    <img src="{{ url_for('static', filename='images/dp/dp.png') }}" alt="Shop Logo">
+  </div>
+  <a href="/dashboard" class="btn btn-light" style="font-size: larger; font-weight:bolder;">🏠 Dashboard</a>
+  <a href="/sales" class="btn btn-light"style="font-size: larger; font-weight:bolder;">🛒 Sales</a>
+  <a href="/reports" class="btn btn-light"style="font-size: larger; font-weight:bolder;">📋 Reports</a>
+  <a href="/product" class="btn btn-light"style="font-size: larger; font-weight:bolder;">📦 Products</a>
+  <a href="/logout" class="btn btn-light "style="font-size: larger; font-weight:bolder;">🚪Log Out</a>
+
+</div>
+
+<!-- Main Panel -->
+<div class="main-panel">
+     <div class="row g-3 mb-3">
+      <div class="col-md-6" >
+        <div class="tile tile-graph">
+    <h1 id="fmcSports">FMC Sports</h1>
+    <h3 id="tagline">Your Sports, Your Style.</h3>
+    </div>
+      </div>
+      <div class="col-md-6">
+      <div class="tile tile-graph">
+        <form method="post" action="/sales" id="barcodeInput" class="row g-3 mb-4">
+    <div class="col-md-6">
+      <input type="text" name="buyer_name" class="form-control" placeholder="Buyer Name *" required autofocus><br>
+      <input type="text" name="buyer_phone" class="form-control" placeholder="Phone (optional)">
+      <button class="btn btn-danger" hidden>✅ Save & Continue</button>
+    </div>
+  </form>
+  </div>
+
+      </div>
+     </div>
+    
+
+  <div style="height: 80%;">
+
+      <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <div class="tile tile-time">
+          <h2 id="time"></h2>
+          <h2 id="date" style="font-size: 1.2rem; margin-top: 10px;"></h2>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="tile tile-calendar">
+          <h1 style="font-size: 64px; font-weight: bold;">{{ today_sales_count }}</h1>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="tile tile-threshold">
+          <h5>🚨 Low Stock</h5>
+        {% if low_stock_products %}
+  <ul class="text-start ps-3" style="font-size: 1rem;">
+    {% for item in low_stock_products %}
+      <li>{{ item[1] }} – Qty: {{ item[6] }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No low stock items.</p>
+{% endif %}
+        </div>
+      </div>
+    </div>
+   
+    <div class="row g-3 mb-3">
+      <div class="col-md-6">
+        <div class="tile tile-graph">
+          <h5>📈 Sales graph</h5>
+          <canvas id="dailySalesChart" width="100%" height="40" style="color: white; font-size: larger;"></canvas>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="tile tile-graph" >
+           <div class="slideshow-container " id="slideshow" >
+      {% for image in slideshow_images %}
+        <img  src="{{ url_for('static', filename='images/slideshow/' + image) }}" class="slide-img" style="display: {{ 'block' if loop.first else 'none' }};">
+      {% endfor %}
+      <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+      <button class="next" onclick="changeSlide(1)">&#10095;</button>
+    </div>
+        </div>
+      </div>
+    </div>
+
+   
+
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="tile tile-empty">
+          <h5>🛠 Placeholder</h5>
+          <p>Feature coming soon</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="tile tile-empty">
+          <h5>💡 Innovation</h5>
+          <p>Under development</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="tile tile-empty">
+          <h5>🧪 Experimental</h5>
+          <a href="/revinue" class="btn" style="font-size: larger; font-weight:bolder;">-</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  // Play click sound on every button or link click
+  document.addEventListener('DOMContentLoaded', function() {
+    function playClick() {
+      document.getElementById('clickSound').play();
+    }
+    document.querySelectorAll('button, a, input[type="button"], input[type="submit"]').forEach(function(el) {
+      el.addEventListener('click', playClick);
+    });
+  });
+
+  function updateClock() {
+    const now = new Date();
+    // Time in hh:mm:ss AM/PM
+    let hours = now.getHours();
+    let minutes = now.getMinutes().toString().padStart(2, '0');
+    let seconds = now.getSeconds().toString().padStart(2, '0');
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // 0 should be 12
+    let timeStr = `${hours}:${minutes}:${seconds} ${ampm}`;
+    document.getElementById('time').innerText = timeStr;
+
+    // Date in '25 June 2025' format
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let day = now.getDate();
+    let month = months[now.getMonth()];
+    let year = now.getFullYear();
+    let dateStr = `${day} ${month} ${year}`;
+    document.getElementById('date').innerText = dateStr;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+</script>
+
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll(".slide-img");
+
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.style.display = i === index ? "block" : "none";
+  });
+}
+
+function changeSlide(step) {
+  currentSlide = (currentSlide + step + slides.length) % slides.length;
+  showSlide(currentSlide);
+}
+
+function autoSlide() {
+  changeSlide(1);
+  setTimeout(autoSlide, 5000); // Change image every 5 seconds
+}
+
+// Swipe support (mobile-like behavior)
+let touchStartX = 0;
+
+document.getElementById('slideshow').addEventListener('touchstart', function(e) {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+document.getElementById('slideshow').addEventListener('touchend', function(e) {
+  let touchEndX = e.changedTouches[0].screenX;
+  if (touchEndX < touchStartX - 30) changeSlide(1); // Swipe left
+  if (touchEndX > touchStartX + 30) changeSlide(-1); // Swipe right
+});
+
+showSlide(currentSlide);
+setTimeout(autoSlide, 5000);
+</script>
+
+<script src="{{ url_for('static', filename='js/chart.umd.js') }}"></script>
+<script>
+    const ctx = document.getElementById("dailySalesChart").getContext("2d");
+    const dailySalesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ labels | tojson }},
+            datasets: [{
+                label: "Daily Sales",
+                data: {{ values | tojson }},
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                x: { ticks: { font: { size: 16 }, color: "white" } },
+                y: { ticks: { font: { size: 16 }, color: "white" } }
+            }
+        }
+    });
+</script>
+
+
+</body>
+</html>

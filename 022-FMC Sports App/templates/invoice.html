@@ -1,0 +1,177 @@
+<audio id="clickSound" src="{{ url_for('static', filename='sounds/click.mp3') }}" preload="auto"></audio>
+ 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice - {{ invoice_id }}</title>
+  <style>
+    body {
+      font-family:'Times New Roman', Times, serif;
+      font-size: 12px;
+      padding: 0;
+      margin: 0;
+      font-weight: 900;
+      background: #fff;
+      font-size: 13px;
+    }
+    .receipt {
+      width: 280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      border: 1px dashed #aaa;
+    }
+    .center {
+      text-align: center;
+    }
+    .bold {
+      font-weight: bolder;
+      font-size: 18px;
+    }
+    .item-line {
+      margin: 8px 0;
+      border-bottom: 1px dashed #ccc;
+      padding-bottom: 4px;
+    }
+    hr {
+      border: none;
+      border-top: 1px dashed #999;
+      margin: 10px 0;
+    }
+    .total {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 10px;
+    }
+
+    button {
+      margin: 10px;
+      font-size: 18px;
+      background-color: red;
+      
+      padding: 20px;
+      border-radius: 10px;
+      border: 0.5px solid black;
+      color: white;
+    }
+    
+    a {
+      margin: 10px;
+      text-decoration: none;
+      font-size: 18px;
+      background-color: blue;
+      padding: 20px;
+      border-radius: 10px;
+      border: 0.5px solid black;
+      color: white;
+    }
+
+    #sft {
+      font-size: 11px;
+    }
+
+   
+    .footer {
+      font-size: 12px;
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    @media print {
+      .no-print { display: none; }
+      body { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="receipt">
+    <div class="center">
+      <img src="{{ url_for('static', filename='images/dp/dp.png') }}" width="100" alt="FMC Logo"><br>
+      <p>Your Sports, Your Style</p>
+      <small>📌 FMC Sports, Talamba Road Mian Channu</small><br>
+      <small>{{ invoice_id }}</small><br>
+      {% if items %}
+        {% set full_date = items[0].sale_date %}
+        {% set date_part = full_date.split()[0] %}
+        {% set time_part = full_date.split()[1][:5] %}
+        {% set hour = time_part.split(':')[0]|int %}
+        {% set minute = time_part.split(':')[1] %}
+        {% set ampm = 'AM' if hour < 12 else 'PM' %}
+        {% set hour12 = hour if 1 <= hour <= 12 else (hour-12 if hour > 12 else 12) %}
+        <small>{{ date_part }} | {{ '%02d' % hour12 }}:{{ minute }} {{ ampm }}</small>
+      {% endif %}
+      <hr>
+      <div> Name: {{ session.get('invoice_buyer', {}).get('name', '') }}</div>
+      {% if session.get('invoice_buyer', {}).get('phone') %}
+        <div>📞 {{ session.get('invoice_buyer')['phone'] }}</div>
+      {% endif %}
+      <hr>
+    </div>
+
+    {% set ns = namespace(grand=0, subtotal=0) %}
+    {% for item in items %}
+      {% set item_subtotal = item.price * item.quantity_sold %}
+      {% set ns.subtotal = ns.subtotal + item_subtotal %}
+      <div class="item-line">
+        <div><strong>{{ item.name }}</strong> </div>
+        <div>{{ item.quantity_sold }} x {{ "%.2f"|format(item.price) }}
+          <span style="float:right">Rs.{{ "%.2f"|format(item_subtotal) }}</span>
+        </div>
+      </div>
+      {% set ns.grand = ns.grand + item.total %}
+    {% endfor %}
+    
+    {% if ns.subtotal > ns.grand %}
+      <hr>
+      <div class="item-line">
+        <div style="text-align: right;">
+          <div>Subtotal: Rs.{{ "%.2f"|format(ns.subtotal) }}</div>
+          <div style="color: red;">Discount: -Rs.{{ "%.2f"|format(ns.subtotal - ns.grand) }}</div>
+        </div>
+      </div>
+    {% endif %}
+    
+   <div class="total">Total: Rs.{{ "%.2f"|format(ns.grand) }}</div>
+
+
+
+<!-- 🧾 Payment Status -->
+{% set ns_status = namespace(total_paid=0, total_due=0) %}
+{% for item in items %}
+  {% set ns_status.total_paid = ns_status.total_paid + (item.amount_paid or 0) %}
+  {% set ns_status.total_due = ns_status.total_due + (item.amount_due or 0) %}
+{% endfor %}
+
+{% if ns_status.total_due == 0 %}
+  <div class="total" style="color: green;">✅ Pay in Cash</div>
+{% elif ns_status.total_paid > 0 and ns_status.total_due > 0 %}
+  <div class="total" style="color: orange;">
+    💰 Partial Payment<br>
+    Paid: Rs. {{ "%.2f"|format(ns_status.total_paid) }}<br>
+    Due: Rs. {{ "%.2f"|format(ns_status.total_due) }}
+  </div>
+{% else %}
+  <div class="total" style="color: red;">
+    🧾 Credit Sale<br>
+    Due: Rs. {{ "%.2f"|format(ns_status.total_due) }}
+  </div>
+{% endif %}
+
+   
+    <div class="footer">
+      <pre>
+        
+Your satisfaction is our ultimate goal.
+      Thanks for being customer!
+
+
+
+    </pre>
+    <hr>
+    <pre id="sft">Developed by <b>Sarfraz</b>- PH# 0326-0155115</pre>
+      <span id="btn" class="no-print"><button onclick="window.print()">Print</button> | <a href="/sales">New Sale</a></span>
+    </div>
+  </div>
+</body>
+</html>
